@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Posts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #666;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        .post-container {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Show Posts</h2>
+    <form method="POST">
+        <label for="search_content">Search:</label>
+        <input type="text" id="search_content" name="search_content" placeholder="Enter search content">
+        <input type="submit" value="Search">
+    </form>
+    <h2>帖子标题</h2> <!-- 添加帖子标题 -->
+    {% for post in posts %}
+        <div class="post-container"> <!-- 添加帖子容器 -->
+            <h3>{{ post.PostTitle }}</h3>
+            <p>{{ post.PostContent }}</p>
+            <a href="{{ url_for('post', post_id=post.PostID) }}">Read more</a>
+        </div>
+    {% endfor %}
+    <div>
+        <a href="{{ url_for('create_post') }}" class="btn">Create a New Post</a>
+    </div>
+    <div>
+        <button onclick="location.href='{{ url_for('courses') }}'" class="btn">Go to Courses</button>
+    </div>
+    <div>
+        <a href="{{ url_for('profile') }}" class="btn btn-primary">个人信息</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        h3 {
+            margin-top: 20px;
+        }
+
+        h4 {
+            margin-bottom: 5px;
+        }
+
+        p {
+            margin-top: 0;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 10px 0;
+        }
+
+        .search-result {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .no-posts {
+            font-style: italic;
+            text-align: center;
+            color: #888;
+        }
+
+        .view-post-button {
+            background-color: #337ab7;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .view-post-button:hover {
+            background-color: #23527c;
+        }
+    </style>
+</head>
+<body>
+    <h2>Search Result</h2>
+    {% if posts %}
+        <h3>Posts</h3>
+        {% for post in posts %}
+            <div class="search-result">
+                <h4>{{ post.PostTitle }}</h4>
+                <p>{{ post.PostContent }}</p>
+                <hr>
+                <a href="{{ url_for('post', post_id=post.PostID) }}" class="view-post-button">View Post</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="no-posts">No posts found.</p>
+    {% endif %}
+</body>
+</html>

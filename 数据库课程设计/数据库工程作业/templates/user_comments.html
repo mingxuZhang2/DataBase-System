@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Comments</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .comment {
+      background-color: #fff;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .comment h3 {
+      color: #333;
+      margin-top: 0;
+    }
+
+    .comment p {
+      margin: 0;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ccc;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>User Comments</h1>
+  {% for comment in comments %}
+    <div class="comment">
+      <h3>Comment ID: {{ comment.CommentID }}</h3>
+      <p>Comment Content: {{ comment.CommentContent }}</p>
+      <p>Comment Date: {{ comment.CommentDate }}</p>
+      <p>Post ID: {{ comment.PostID }}</p>
+    </div>
+    <hr>
+  {% endfor %}
+</body>
+</html>

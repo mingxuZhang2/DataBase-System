@@ -1,0 +1,19 @@
+<table>
+    <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for enrollment in students %}
+            <tr>
+                <td>{{ enrollment.StudentID }}</td>
+                <td>
+                    <input type="text" name="grade-{{ enrollment.StudentID }}" required
+                           value="{{ enrollment.Grade }}">
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

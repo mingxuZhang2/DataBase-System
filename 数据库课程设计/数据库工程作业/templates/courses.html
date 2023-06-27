@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Courses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .teacher {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .enrollment {
+            font-size: 14px;
+            color: #888;
+        }
+
+        form {
+            margin-left: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #337ab7;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #337ab7;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Courses</h2>
+    <ul>
+        {% for course in courses %}
+            <li>
+                <div class="course-info">
+                    <span>{{ course.CourseName }}</span>
+                    <span class="teacher">Teacher: {{ course.teacher.UserName }}</span>
+                    <span class="enrollment">Enrollment: {{ course.enrollments|length }}</span>
+                </div>
+                <form method="POST" action="{{ url_for('enroll_course', course_id=course.CourseID) }}">
+                    <input type="submit" value="Enroll">
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    {% if user.UserType == 'Student' %}
+        <a href="{{ url_for('my_grades') }}">My Courses</a>
+    {% endif %}
+</body>
+</html>

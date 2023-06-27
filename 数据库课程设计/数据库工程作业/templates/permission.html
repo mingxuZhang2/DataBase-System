@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Permission Denied</title>
+</head>
+<body>
+    <h2>Permission Denied</h2>
+    <p>You do not have permission to view this post.</p>
+    <p>Your user type is "{{ user.UserType }}" and the post permission is "{{ post.PostPermission.name }}".</p>
+    <form method="POST" action="{{ url_for('post', post_id=post.PostID) }}">
+        <input type="hidden" name="continue" value="true">
+        <input type="submit" value="Continue">
+    </form>
+</body>
+</html>

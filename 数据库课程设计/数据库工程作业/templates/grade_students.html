@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grade Students</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #337ab7;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #23527c;
+        }
+    </style>
+</head>
+<body>
+    <h2>Grade Students</h2>
+    <form method="GET" id="courseForm">
+        <label for="course">Select Course:</label>
+        <select id="course" name="course" required onchange="updateCourseValue()">
+            {% for course in courses %}
+                <option value="{{ course.CourseID }}">{{ course.CourseName }}</option>
+            {% endfor %}
+        </select><br>
+    </form>
+
+    <form method="POST" id="gradeForm">
+        <div id="studentsTable">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for enrollment in students %}
+                        <tr>
+                            <td>{{ enrollment.StudentID }}</td>
+                            <td><input type="text" name="grade-{{ enrollment.StudentID }}" required value="{{ enrollment.Grade }}"></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <input type="hidden" id="selectedCourse" name="course" value="">
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        function updateCourseValue() {
+            var selectedCourse = document.getElementById('course').value;
+            document.getElementById('selectedCourse').value = selectedCourse;
+            updateStudents();
+        }
+
+        function updateStudents() {
+            var selectedCourse = document.getElementById('course').value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/get_students?course=' + selectedCourse, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    document.getElementById('studentsTable').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+
+        document.getElementById('courseForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var selectedCourse = document.getElementById('course').value;
+            document.getElementById('selectedCourse').value = selectedCourse;
+            this.submit();
+        });
+    </script>
+</body>
+</html>

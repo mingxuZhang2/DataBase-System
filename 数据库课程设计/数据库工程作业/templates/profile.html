@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        h3 {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 10px 0;
+        }
+
+        .btn {
+            background-color: #337ab7;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background-color: #23527c;
+        }
+    </style>
+</head>
+<body>
+    <h2>Welcome, {{ user.UserName }}!</h2>
+
+    <h3>Posts:</h3>
+    {% for post in posts %}
+        <p>{{ post.PostTitle }}</p>
+        <p>{{ post.PostContent }}</p>
+        <hr>
+    {% endfor %}
+
+    {% if user.UserType == 'Student' %}
+        <h3>Courses:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                    <tr>
+                        <td>{{ course.CourseName }}</td>
+                        <td>
+                            {% for grade in grades %}
+                                {% if grade['CourseID'] == course.CourseID %}
+                                    {{ grade['grade'] }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('show_posts') }}" class="btn btn-primary">Show Posts</a>
+	  <a href="{{ url_for('user_comments') }}" class="btn btn-primary">My Comment</a>
+    {% elif user.UserType == 'Teacher' %}
+        <h3>Courses Taught:</h3>
+        <ul>
+            {% for course in courses %}
+                <li>{{ course.CourseName }} - Enrolled: {{ course.enrollments|length }}, Capacity: {{ course.CourseCapacity }}
+                        <form method="POST" action="{{ url_for('withdraw_course', course_id=course.CourseID) }}">
+                          <a href="{{ url_for('course_details', course_id=course.CourseID) }}">查看详情</a>
+                        <input type="submit" value="Withdraw">
+                    </form>
+		    </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('grade_students') }}" class="btn btn-primary">Grade Students</a>
+        <a href="{{ url_for('create_course') }}" class="btn btn-primary">Create Course</a>
+        <a href="{{ url_for('show_posts') }}" class="btn btn-primary">Show Posts</a>
+	  <a href="{{ url_for('user_comments') }}" class="btn btn-primary">My Comment</a>
+    {% endif %}
+</body>
+</html>
